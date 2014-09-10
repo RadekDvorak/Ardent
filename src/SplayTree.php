@@ -213,10 +213,34 @@ class SplayTree implements BinarySearchTree {
         if ($n === null) {
             return null;
         }
-        $new = new BinaryTree($n->value);
-        $new->setLeft($this->copyNode($n->left));
-        $new->setRight($this->copyNode($n->right));
-        return $new;
+
+        $stack = new \SplStack();
+        $rootTree = new BinaryTree($n->value);
+        $stack->push([$n->right, $rootTree, true]);
+        $stack->push([$n->left, $rootTree, false]);
+
+        while (!$stack->isEmpty()) {
+            list($node, $parent, $isRight) = $stack->pop();
+
+            if ($node === null) {
+                $new = null;
+            }
+            else {
+                $new = new BinaryTree($node->value);
+
+                $stack->push([$node->right, $new, true]);
+                $stack->push([$node->left, $new, false]);
+            }
+
+            if ($isRight) {
+                $parent->setRight($new);
+            }
+            else {
+                $parent->setLeft($new);
+            }
+        }
+
+        return $rootTree;
     }
 
 
