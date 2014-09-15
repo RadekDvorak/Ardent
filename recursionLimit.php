@@ -4,7 +4,7 @@ use Collections\SortedSet;
 require_once __DIR__ . "/autoload.php";
 
 $set = new SortedSet();
-$size = 1e4;
+$size = 94;
 
 for($i = 0; $i < $size; $i++)
 {
